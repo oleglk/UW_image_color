@@ -1,0 +1,31 @@
+﻿List of failure situations UWID should be tested against
+------------------------
++ Missing Data/ directory
++ Missing dive log
++ Empty dive log
+! Unreadable/invalid dive log
++ Only header in dive log
+- Missing all RAWs
+- Unsupported (by dcraw) RAW format
+- Missing RAWs for some settings files
+- Missing all settings files
+- Missing settings files for some RAWs
+- Missing anything from the trios of RAW/settings/record - for gray targets
+- Missing anything from the trios of RAW/settings/record - for ultimate photos
+- All RAWs of gray targets are outside of dive time
+- Only one RAW of gray target fits into dive time
+- Some  RAWs of gray targets are outside of dive time
+- No write permission
+- Missing dcraw executable
+- Failed to extract some or all thumbnails
+- Missing RAWs for some or all thumbnails (unlikely)
+- Depth of 0.0 for an image
+- Negative but valid val for a color-param
+- Ultimate-photo RAW above depth-range of gray targets
+- Ultimate-photo RAW below depth-range of gray targets
+- On Unix - RAW names that differ only by letter case
+- On Unix - settings names that differ only by letter case
+- OverrideDepth button pressed while depth-ovrd window already open
+- "Folder" button pressed while depth-ovrd window open
+- Same RAW appears as gray-target and ultimate photo
+

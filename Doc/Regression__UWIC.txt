@@ -1,0 +1,109 @@
+﻿UWIC Regression Testing
+=======================
+
+A test is comprised of input work-area prearrangement procedure, one (button-press) command, expected-results work-area, and verification procedure. The latter could be generic.
+
+Inputs
+------
+Input RAWs are named by their roles: 	dscXXXXX_<GT|PH>_<depth|special>.
+GT means gray target, PH means ultimate photo.
+Depth starts from digit, dot replaced by 'd'; example: 4d55.
+Special (role) starts from a letter; example: NoSettings, BelowRange, AfterDive.
+Inputs reside in common store, directory per a dive. Each dive has 6 consistent gray-target RAWs, any number of inconsistent gray-target RAWs ("special"-s), 3 ultimate photos within depth range, 1 ultimate photo above depth range (shallow), 1 ultimate photo below depth range (deep), any number of corrupt RAWs, settings files for all RAWs except the special-s intended to lack settings, optionally some settings files with no matching RAWs.
+Each dive has one valid dive-log (dive_log.csv) and optionally several corrupted ones:
+- dive_log.BadHeader.csv
+- dive_log.BadLineFieldsCnt.csv - has lines with wrong field count
+- dive_log.BadNumbers.csv - has lines with invalid numeric fields
+- dive_log.Empty.csv - nothing but whitespace-s
+- dive_log.OnlyHeader.csv - no data lines
+
+Work-area prearrangement procedure
+-----------------------------------
+MakeWorkArea workRoot storeRoot diveName inputSelectSpec
+-----------------------------------
+- Build initial directory structure: <ROOT>/, <ROOT>/Data
+- Copy requested number of consistent gray-target RAWs from given input-store dive into <ROOT>/
+- Copy valid dive-log from given input-store dive into <ROOT>/
+- Optionally copy some inconsistent gray-target RAWs from given input-store dive into <ROOT>/
+- Copy given number of ultimate-photo RAWs into <ROOT>/
+- Optionally copy given number of out-of-dive-time ultimate-photo RAWs into <ROOT>/
+[(in the test itself) Optionally model unmatched RAWs/settings by deleting some of the input files and adding suffixes to their peers' names]
+
+Spec of input set selection - inputSelectSpec
+-----------------------------------
+-----------------------------------
+Format: <type>:Count:Step|<type>:Count:Step ...
+- type is a regexp pattern as appears in RAW filename; no problem if one RAW picked by several fields in the spec
+- Count tells max number of matching files to copy
+- Step, if > 1, tells to skip some matches
+Keywords:
+- GT - gray-target
+- PH - ultimate photo
+- NoSettings
+- NoRAW
+- BelowRange
+- AboveRange
+- BeforeDive
+- AfterDive 
+Examples:
+GT:999:1 = all gray-targets
+GT.*2[0-9]\.[0-9]:999:1 = all gray-targets deeper than 20m
+PH
+TODO
+
+
+RunAll
+------
+Based on building list of permutations of test/dive/converter.
+TODO: invent how to specify per a test which "dimensions" to permute
+
+
+Result Colors Consistency check
+-----------------------------------
+- Check file-list in result-colors datafile
+- Mix photos and selected consistent targets together, sort by depth and change mutual consistency while going from shallow to the deep
+
+
+The ultimate tests
+===========================
+Common structure
+-----------------
+- a directory per test with exactly one TCL code file and (optionally) expected-results files
+- test name conveyed by directory name and optionally code-file name
+- test code-file name has standard prefix: TCLTest__<topic==dirname>.tcl
+
+
+
+- Out-of-depth-range test:
+-- start with normal input-set
+-- detect depth-range of the ultimate photos using suffixes in image names
+-- start removing deeper/shallower gray-targets until the deepest/shallowest photo not covered, or <2 gray-targets left
+-- rename (add suffixes) ultimate photos that became out-of range
+-- run the regular test
+
+
+- Backup/unmatched test
+++ after each step check that num of RAWs and settings files   not marked as unmatched did not decrease
+
+
+- RAW extension test
+TODO
+
+
+- WB target consistency test
+[The ultimate aim would be to test 3 conditions:
+(a) the filtered set of gray-targets is consistent - checked
+(b) no single dropped gray-target can be added to the consistent set - TODO
+(c) the filtered consistent set of gray-targets is max possible - hard to verify; postponed
+-- perform regular map-depth-to-color stage to obtain a set of surely consistent gray-targets
+-- rename skipped gray-target RAWs and settings files
+-- rerun map-depth-to-color stage; verify renamed gray-targets not included; checks stability of gray-target filtering mechanism
+-- hide renamed gray-targets to ensure they aren't picked in a reduced input set
+(-- swap depths of shallowest and deepest gray-targets in the datafile - NOT SUPPORTED AS OF NOW?)
+-- (verify (b)) compare each dropped gray-target with its neighbors depth-wise (up to N up and down); at least one should be inconsistent with the gray-target being checked
+
+
+- Dive-log test
+-- create a fake dive-log with valid names alongside the true one
+-- try running ProcessDepthData; should fail
+

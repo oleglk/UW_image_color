@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SL Engine="800">
+  <E K="Exposure" V="0.462" />
+  <E K="Contrast" V="8.171" />
+  <E K="Brightness" V="6.330" />
+  <E K="WhiteBalanceTint" V="4.731" />
+  <E K="WhiteBalanceTemperature" V="24946.438" />
+  <E K="Shadow" V="0.000;0.000;0.000;0.035" />
+  <E K="Highlight" V="1.000;1.000;1.000;0.995" />
+  <E K="Midtone" V="0.000;0.000;0.000;0.000" />
+  <E K="ShadowRecovery" V="6.162" />
+  <E K="HighlightRecovery" V="0.000" />
+  <E K="GradationCurve" V="0.000,0.000;1.000,1.000" />
+  <E K="Name" V="DSC01102" />
+  <E K="UUID" V="ce178316-e59f-4199-aa11-9c7ebb7d7791" />
+  <E K="StyleSource" V="Styles" />
+</SL>

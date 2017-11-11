@@ -1,0 +1,31 @@
+﻿+ Support settings files in separate directory
++- per-converter SETTINGS_DIR variable: "" means settings alongside RAWs, non-empty string means subdirectory under work-area, for settings of both wb-targets and ultimate photos
+--- infrastructure for dependence of SETTINGS_DIR on the OS - read OS ID and array of paths
+++ ensure settings always taken from the relevant place
+++ Make Find*Settings*() search for matching RAWs and deduce the type from the dir where the RAWs found
++++ but use the old FindSettingsFiles() for the tests - to enable finding settings without RAWs
+++ (done, not checked) don't hide unmatched settings for converters that keep settings in separate directory
+++ in the tests override non-empty SETTINGS_DIR to protect real converter's directory
+++ BringOneFile() should support copying settings into the standard directory
+-- Write an utility to copy/move settings files from converter's standard dir to the directory of their RAWs
+--- Inputs: converter name and ROOT destination directory
+--- All settings files in the range between the smallest and the largest RAW name in the specified ROOT directory
+--- Choice of copy or move
+--- Full clean of the standard settings directory feature
+- Support CaptureOne Express raw-converter
+-- follow CaptureOne releases - wait for WB range increase
+-- Check existence of std settings dir; ?at choosing cnv?
++ In _Unmatched test check that settings files not hidden for converters with standard settings directory - call this check alongside calls to VerifyUnmatchedInputsAreHidden
++ In _Unmatched test don't check for hidden settings  for converters with standard settings directory - code of VerifyUnmatchedInputsAreHidden
++ Add to _Unmatched test scenario of missing settings for gray-target and photo - should cause abort
+++ when hiding inputs, build the list of renamed files; this way it works for standard settings dir too
+++ let the action fail
+++ restore (rename back) the hidden files and let the action pass
++ Complete VerifyUnmatchedInputsAreHidden
++ In case of standard settings directory, instead of VerifyUnmatchedInputsAreHidden, call VerifyNoInputsAreHidden 
++ Checkbox for debug-print in preferences
+++ Put it in the row of save/cancel buttons
++ Verify/fix row and column weights in Preferences-window
+- Proxies for variables in Preferences-window where needed - to preserve old state if "Cancel" pressed
+- In CSV file reader compare num fields before discard-empty
+

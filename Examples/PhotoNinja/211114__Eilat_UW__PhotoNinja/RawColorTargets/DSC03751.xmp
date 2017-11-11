@@ -1,0 +1,115 @@
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 5.5.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+            xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
+            xmlns:aux="http://ns.adobe.com/exif/1.0/aux/"
+            xmlns:exif="http://ns.adobe.com/exif/1.0/"
+            xmlns:pn="http://ns.picturecode.com/photoninja/1.0/">
+         <xmp:MetadataDate>2015-02-04T21:45:32+02:00</xmp:MetadataDate>
+         <xmp:CreateDate>2014-11-21T10:53:19</xmp:CreateDate>
+         <tiff:ResolutionUnit>2</tiff:ResolutionUnit>
+         <tiff:XResolution>350/1</tiff:XResolution>
+         <tiff:YResolution>350/1</tiff:YResolution>
+         <tiff:Make>SONY</tiff:Make>
+         <tiff:Model>NEX-C3</tiff:Model>
+         <tiff:Orientation>1</tiff:Orientation>
+         <dc:description>
+            <rdf:Alt>
+               <rdf:li xml:lang="x-default">SONY DSC</rdf:li>
+            </rdf:Alt>
+         </dc:description>
+         <photoshop:SidecarForExtension>ARW</photoshop:SidecarForExtension>
+         <photoshop:DateCreated>2014-11-21T10:53:19</photoshop:DateCreated>
+         <aux:LensCandidates>
+            <rdf:Seq>
+               <rdf:li>Sony E 18-55mm F3.5-5.6 OSS</rdf:li>
+            </rdf:Seq>
+         </aux:LensCandidates>
+         <aux:Lens>Sony E 18-55mm F3.5-5.6 OSS</aux:Lens>
+         <aux:LensUserResolved>False</aux:LensUserResolved>
+         <aux:LensID>65535</aux:LensID>
+         <aux:LensInfo>18/1 55/1 7/2 28/5</aux:LensInfo>
+         <aux:LensModel>E 18-55mm F3.5-5.6 OSS</aux:LensModel>
+         <exif:BrightnessValue>118/27</exif:BrightnessValue>
+         <exif:CompressedBitsPerPixel>8/1</exif:CompressedBitsPerPixel>
+         <exif:Contrast>1</exif:Contrast>
+         <exif:CustomRendered>0</exif:CustomRendered>
+         <exif:DateTimeOriginal>2014-11-21T10:53:19</exif:DateTimeOriginal>
+         <exif:ExifVersion>0230</exif:ExifVersion>
+         <exif:ExposureBiasValue>-7/10</exif:ExposureBiasValue>
+         <exif:ExposureMode>0</exif:ExposureMode>
+         <exif:ExposureProgram>2</exif:ExposureProgram>
+         <exif:ExposureTime>1/125</exif:ExposureTime>
+         <exif:Flash rdf:parseType="Resource">
+            <exif:Fired>False</exif:Fired>
+            <exif:Return>0</exif:Return>
+            <exif:Mode>2</exif:Mode>
+            <exif:Function>False</exif:Function>
+            <exif:RedEyeMode>False</exif:RedEyeMode>
+         </exif:Flash>
+         <exif:FNumber>28/5</exif:FNumber>
+         <exif:FocalLength>19/1</exif:FocalLength>
+         <exif:FocalLengthIn35mmFilm>28</exif:FocalLengthIn35mmFilm>
+         <exif:ISOSpeedRatings>
+            <rdf:Seq>
+               <rdf:li>400</rdf:li>
+            </rdf:Seq>
+         </exif:ISOSpeedRatings>
+         <exif:LightSource>0</exif:LightSource>
+         <exif:MaxApertureValue>148/41</exif:MaxApertureValue>
+         <exif:MeteringMode>5</exif:MeteringMode>
+         <exif:PixelXDimension>4912</exif:PixelXDimension>
+         <exif:PixelYDimension>3264</exif:PixelYDimension>
+         <exif:Saturation>0</exif:Saturation>
+         <exif:SceneCaptureType>0</exif:SceneCaptureType>
+         <exif:Sharpness>1</exif:Sharpness>
+         <exif:WhiteBalance>0</exif:WhiteBalance>
+         <pn:RGGBConverter>True</pn:RGGBConverter>
+         <pn:RGGBQuality>1</pn:RGGBQuality>
+         <pn:RGGBDirection>0</pn:RGGBDirection>
+         <pn:RGGBBalanceG>True</pn:RGGBBalanceG>
+         <pn:RawCA>False</pn:RawCA>
+         <pn:ColorCorrection>True</pn:ColorCorrection>
+         <pn:WBRawWhite>14.3552 70.6918 53.5123</pn:WBRawWhite>
+         <pn:WBMode>3</pn:WBMode>
+         <pn:WBLightSource>2</pn:WBLightSource>
+         <pn:WBLightSourceName>Daylight/Flash</pn:WBLightSourceName>
+         <pn:WBTemp>8188.402344</pn:WBTemp>
+         <pn:WBTint>19.801390</pn:WBTint>
+         <pn:ColorRecovery>0</pn:ColorRecovery>
+         <pn:PlainCA>False</pn:PlainCA>
+         <pn:NoiseReduction>True</pn:NoiseReduction>
+         <pn:NRMode>1</pn:NRMode>
+         <pn:NRQuality>1</pn:NRQuality>
+         <pn:NRLumEnabled>True</pn:NRLumEnabled>
+         <pn:NRLumSmoothing>100</pn:NRLumSmoothing>
+         <pn:NRLumResidStrength>64</pn:NRLumResidStrength>
+         <pn:NRChromaStrength>100</pn:NRChromaStrength>
+         <pn:DefringeStrength>100</pn:DefringeStrength>
+         <pn:Sharpening>False</pn:Sharpening>
+         <pn:BlackAndWhite>False</pn:BlackAndWhite>
+         <pn:ToneAndContrast>True</pn:ToneAndContrast>
+         <pn:WhiteOffset>0.700000</pn:WhiteOffset>
+         <pn:BlackOffset>-0.000000</pn:BlackOffset>
+         <pn:ExposureMode>-1</pn:ExposureMode>
+         <pn:ExposureShadowMode>2</pn:ExposureShadowMode>
+         <pn:ExposureCompPolicy>0</pn:ExposureCompPolicy>
+         <pn:IllumStrength>0</pn:IllumStrength>
+         <pn:ToneVersion>1</pn:ToneVersion>
+         <pn:ToneCurveMode>0</pn:ToneCurveMode>
+         <pn:GlobalContrast>1.450000</pn:GlobalContrast>
+         <pn:ContrastToe>0.000000</pn:ContrastToe>
+         <pn:ContrastShoulder>0.000000</pn:ContrastShoulder>
+         <pn:LocalContrast>0</pn:LocalContrast>
+         <pn:ColorEnhancement>False</pn:ColorEnhancement>
+         <pn:Vignetting>False</pn:Vignetting>
+         <pn:DistortionAndGeometry>False</pn:DistortionAndGeometry>
+         <pn:Crop>False</pn:Crop>
+         <pn:IllumProfile>AAAYjXjaY5RXZ2BkkGBgZGRgYJQDsbkZmBgYGDgZBBgYmYASckAOoxJIQpyBBcj+dL3MnoGhwV7POhhEO//7zwxSygJTqohQOufuVKeI97bOW53fOQG5DP/+szLwMXyJm+PKAVTBDBICGgTDXDAT1EAmiIFNQAf//gsQpUoQ6AsQEILS3AyCYJoH6FQGXiiHD0rzQ2mQTyQYQC5llIQEBMiJTFCaGehkTiCt455hr7e90FbtGqftvlOvbCwqVth39G7Yx/1nuQ2DZvw+A9eZ9v/+sxBhknFhr/0Hs+y9He+d9jYs+bnn01If+xNzcuw2lJzYU/JX1M7jSII9KMgkGB6JAU2SgpgkCdTJAiRTgD5T2GMXwjAKRsEoGAWjYBSMglEwCkbBKKAqYBoFo2AUjIJRMApGwSgYBaNgFFAV/Pv/7z8Ax7Fkkw==</pn:IllumProfile>
+         <pn:SensorProfile>AAAHPnjaY5RVZ2BkkGCwYWBgYJQBsbkZQIAJSjMD5eRAcmogOTEGFiD7in0A020H3jJXSwvjq0/1Lv/7/+8/E1CdPhNQnRjUDEaQGXxQM0B0gz0LgwADAxuDJFgSCJwZODg6OXw7dTikfOd3BuuIcfRKrff9NF+r803wXp35YhM5vHovS6Ws/+s775PH/J9akZ273sgHd+z9opM6/5ZY8MQLHJpe2b0bLn+Tsk/pXH/tr6pv6bwTn2Q8iuef+Sms5RRZ2Llw1+U3rPKWwbkdi/be/CKg45naNH/vrR9ipsFFEzdc+MAhoWnpFZVd0ztvw8HLT75xSOnYB6aUdc5Zf/jay7+Cqha+iaVd8zafuPuJXcbII7a4c/7WM49+cgjLa5k5+UamFtZ2Tl24btexy/ff/GAVktexdAtOyK3qmLpow97TN59/YRKQ07HyDE8taZo4f93e07de/mAXUzV1CU4uapq4cMOBCw8+MDBZOLh4ePn4BQQGBYeEhoVHRERGRkVFx8TExMbGxcXHJwBBIhAkJSUlJyengEAqCKQBQToQZEBBJgRkgUE2GOTAQS4c5MFAPhQUoIJCFFCEBIqRQAk2UIoJyjBAORqo+PefeTTZjCYb0pMNy2iyGU02pCcbVkiSEAemERDQcoZhLmja4YbSnLBaT0edgR0s5uDAAaU5oTSo1gMAMePSwQ==</pn:SensorProfile>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>

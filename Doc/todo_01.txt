@@ -1,0 +1,75 @@
+﻿  TODO list for Underwater-Image-Color
+--------------------------------------
++ Auto-validation of numbers in depth-ovrd entries
++ Check number validity when loading depth-ovrd file into window
++ "Disable" ProcessDepthData button while depth-ovrd window is open
++ Ask for confirmation if ProcessDepthData button pressed while any older gray_targets_* files exist
++ Ensure timestamp read once per each action; use for trash directory name for the whole duration of this action; achieved by keeping ultimate trash-directory name
+? Check num of fields vs header in all CSV-s; difficult because of spaces in the header; so far data lines nFields-s are compared
+- Detect field positions through the header in the dive-log
+-- Keep hardcoded dictionaries of full-header-->list-of-field-indices; start with that for Subsurface and another one minimalistic (only required fields)
+-- Pick the field-position dictionary after the first (header) line is read from a CSV
+-- Reject reading the CSV if no matching header key exists in the dictionary
+- Check number validity in all CSV-s - in Parse*() functions
+++ call verification CB from CSV reader
+++ CB for result-colors record
+++ CB for depth-override record
+++ CB for dive-log record
++++ check that depth is positive
+? In depth-ovrd win-close handler ask whether to save data
+- Ensure depth-ovrd win-close handler called from app-exit handler
++ Ensure app-exit handler is called when main window closes
+? Detect changes in depth-ovrd entries vs the last save
+? 3-option dialog in depth-ovrd win-close handler: save/discard/cancel; restore old focus if commanded not to close
+- Make buttons raised
++ Exchange places of Quit button and progress indicator
++ Write log messages into predefined file, clean it at startup
+- Make diagnostics-log available when setting RAW converter from preferences
+- Gray-out depth-ovrd table header: (NOT -relief raised)
++ Make depth always printed with 2 digits after point
++ Avoid trailing new-line in log window
++ Print underlined (since bold is difficult) errors and warnings in log window
++ Check color parameters vs converter limits
++ Incr/decr/reset buttons in depth-ovrd window; find their entries through index->line->textvariable
+- Bind keys for main-window buttons
++ Delete depth-ovrd records for deleted RAWs - for example when opening depth-ovrd window or even reading depth-ovrd data
++ At ProcessDepthData, OverrideDepth, ProcessAllPhotos, ProcessChangedPhotos: first check pairs of RAW/settings for RAWs relevant to the action; either abort or move incomplete items into TRASH/<ACTION>_<timestamp>/; check all, afterwards act:
+++  +RAW/-settings - error, stop
+++  -RAW/+settings - warn, hide
+- At OverrideDepth, ProcessPhotos (all or changed), after matching between RAWs and settings enforced, check trios of RAW/settings/depth-ovrd-record for 
+ultimate photos; either abort or move incomplete items into TRASH/<ACTION>_<timestamp>/; check all, afterwards act:
+?? ultimate photo +RAW/+settings/-record - error, stop; could have recomputed the depth, but better request rerunning ProcessDepthData; so far it just uses estimated depth
+++ ultimate photo -RAW/-settings/+record - warn, hide old depth-ovrd file if at least one its record is unmatched, create new depth-ovrd file without lines for missing RAWs/settings
+? Make data files read-only while UWIC runs; release in exit handler; problematic in case of failure
++ Generic utility to hide (copy or move) files under TRASH/<ACTION>_<TIMESTAMP>/
+(intended for unmatched files and converter-settings files, will not backup everything)
+++ create dir per action; if exists retry after half second
+++ proc MoveListedFiles {fullPathList destDir}
+++ use it after check in ProcessDepthData for settings
+++ use it after check in OverrideDepth for depth-ovrd files
+++ use it after check in ProcessAllPhotos for depth-ovrd files and all converter-settings (do not backup result-colors-files)
+++ use it after check in ProcessChangedPhotos for depth-ovrd files and overriden converter-settings (do not backup result-colors-files)
+- Open help file by "Help" button
+- If old depth-ovrd exists, back it up and merge with new: keep records for images from new version only, apply depth changes from old version
++ Make text entries in Preferences GUI enlargeable
++ Set diagnostics path at change-folder properly
+- Prevent access to the standard window buttons of the main GUI while Preferences window is open; or prevent main GUI from raising to the top at this time; ?use "place" geometry manager to cover main GUI?
++ Support name pattern for dive-log (dive_log*.csv), but require one file in the data subdirectory
+- Support case-sensitive filenames in SettingsFileNameToPurename
+- Fix report of number of overriden settings files in ProcessChangedPhotos - prints 2 instead of 1
+- rename WB parameters in PhotoNinja
+- Check consistency rules for PhotoNinja
+- Verify wbParam limits in PhotoNinja
++ Rename color-temperature/tint into wbParam1/2/3
++ Prevent picking .arw.xmp when .xmp intended; happens in ProcessDepthData. The problem is *.xmp pattern; try post-filter by converting to RAW name or so.
+- Enclose TCL file operations in catch {}
+- Enclose invocations of per-converter callbacks in catch {}
++ Fix error on creating trash dir by ProcessPhotos when extra RT settings files exist
++ Provide a way to choose RAW filename pattern: look for known patterns in the work-area; if found only one, use it; if none or several, print error and abort
+- List and support all known RAW extensions
+- If RAW extension search is long, perform it once per work-area - set RAW_EXTENSION and reset it on folder change
+- In gray-target consistency checker find dominant color - G or B - and compare ratios of the rest to it
+-- compare average ratios of upper, medium and lower thirds (by depth) of the gray-targets; a tendency is stable if holds in all 3 cases
+- Improve pattern in FindSettingsFiles
++ When sorting by thumbnails, move settings too (if exist); do not move settings from the standard directory
+

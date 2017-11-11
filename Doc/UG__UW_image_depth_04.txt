@@ -1,0 +1,4 @@
+UWIC automatic work-area maintenance
+
+1) At process-depth-data:
+- UWIC compares list of available RAW files with the list of available settings files. If settings for some RAWs are missing, UWIC prints error and stops. If there are settings files for inexistent RAWs, these settings one moved into trash directory.

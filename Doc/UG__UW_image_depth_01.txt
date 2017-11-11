@@ -1,0 +1,100 @@
+﻿Glossary
+----------
+- gray target - RAW image of a neutral-color object; preferably a white one
+- ultimate photo (image) - RAW image of anything other than gray sample
+- (RAW) converter - RAW editor
+- Work directory - directory (folder) where input, output, and intermediate files for one dive are placed
+TODO
+
+Place of UWIC in the underwater-photography ecosystem
+-----------------------------------------------------
+Camera --> flash photos -->... UWIC-not-used
+     +---> available-light photos --> {UWIC <-> RAW-Editor}
+Dive-Computer -> "Subsurface" -> dive-log-^         +
+                                                    V
+                             Resulting photos (TIFF / JPEG)
+
+Main steps
+-------------
+1) Arrange inputs under the work directory
+It should look the following way:
+TODO: dir-tree with comments
+
+2) Start UWIC application
+Double-click on the provided shortcut. See TODO for how to setup the shortcut for your system.
+(Code/CLI: Load the code.
+  source <CODE_PATH>/setup_uw_image_depth.tcl )
+
+3) Choose RAW converter.
+Select the appropriate name in "RAW converter" combobox.
+(Code/CLI: Set the TODO variable in raw_converters.tcl)
+
+4) Select the work directory
+Click "Folder" button and choose the directory by means of the built-in standard folder-selection dialog.
+(Code/CLI: make it your current directory in TCL console)
+
+... The following 3 steps achieve separation of gray-target RAWs from those of the ultimate photos. One can do it without UWIC, but UWIC can greatly simplify the procedure.
+In the end, the RAWs of the ultimate photos should stay in the root of work directory, while the RAWs of gray targets should move into RawColorTargets/ subdirectory.
+
+5) Extract thumbnails from RAWs.
+Places thumbnails of all the images under Thumbnails/ subdirectory.
+Click "Extract Thumbnails" button
+(Code/CLI:   TODO)
+
+5) Move thumbnails of gray targets into the dedicated subdirectory - Thumbnails/RawColorTargets/.
+Use a standard file-manipulation tool from your OS.
+
+6) Run a command that moves the real RAWs of gray targets into their own directory; the further choice of which RAWs are gray targets is based on location of their thumbnails.
+Click "Sort Thumbnails" button.
+(Code/CLI:  TODO)
+
+7) In your RAW  converter perform 'Click-White-Balance' on all gray targets and ensure their settings files (converter-specific) are saved under your work directory. See TODO.
+
+The following 3 steps meant to (a) build a formulae to compute color at any relevant depth, and (b) estimate depth for each ultimate photo.
+
+8) Read the dive-log and build time-to-depth map for the dive.
+
+9) Process the gray targets and build depth-to-color map.
+
+10) Run a command to filter the depth-to-color map so that all the readings in it are consistent. Consistency means the greater is the depth, the stronger is the warming color correction.
+Note, because of the odd 3-parameter control of white balance in RawTheraphy, the result may look counterintuitive. Consistency rules for color-temperature and primary tint apply only to gray-target readings with equal secondary tint.
+
+Click "Process Depth Data" button for (8), (9) and (10).
+(Code/CLI:  ProcessDepthData)
+
+11) Using your RAW converter, provide initial settings' files for all the ultimate photos.
+The UWIC tool will only override white-balance numerical parameters in _preexisting_ settings' files. Thus initial settings files should have WB mode set to 'manual'.
+Use "paste-into-many" feature if your RAW converter has it.
+
+The following 2 steps achieve initial but usable WB parameters TODO
+12) Create image-to-depth-and-color map for the ultimate photos.
+
+13) Run a command to override white-balance parameters in the settings' files for the chosen RAW converter.
+Click "TODO" button for (12) and (13).
+(Code/CLI:  ProcessUltimateRAWs)
+
+14) Review and edit RAW images in the converter. If needed, change depth for some images in depth-override file and run a command to override settings' files for the affected images; see TODO:ref.
+Click "TODO" button.
+(Code/CLI:   ProcessUltimateRAWS 1)
+
+
+====================
+Depth override
+====================
+There are several reasons for wishing the colors to be computed for a depth different from the one measured by the dive-computer:
+1) Camera pointed upward; this may make the image span a rather large range of depths; one has to choose which part of the image is most important and optimize the depth correction for it.
+2) Camera pointed downward; typically the depth of the bottom should be set, or measured depth plus visibility distance.
+3) Dive-computer stayed at a different depth than the subject.
+4) Measurement error - possible cause is depth-measurement interval being rather large.
+
+So, if you detect a color-cast induced by wrong depth assumption, you can force an alternative depth on per-image basis:
+- press "Override Depth" button to open a table with image names and four depth values (left to right):
+-- min/max depth readings close to the image taking time
+-- estimated depth according to the above readings
+-- the ultimate depth to use in color computation - this value appears in a text entry, and this is the one you can override
+- just type the desired depth values in the entries of the images you want to override, and then close the depth-override window
+-- even if the depth-override window is kept open, new depth values are already applied 
+- Press "ProcessChangedPhotos" to recompute only the photos affected by your depth-override decisions.
+
+It is possible to specify depth-override values by means of any standard text editor - just edit Data/TODO_depth_ovrd.csv file; save it as plain text, close the editor, press "ProcessChangedPhotos" button in UWIC. Be sure not to open depth-override window in parallel.
+

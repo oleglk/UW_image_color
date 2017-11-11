@@ -1,0 +1,50 @@
+﻿Adding RAW converters to UWIC
+
+Requirements for the converter
+==============================
+In order for the converter to be supportable by UWIC, it has to comply with the following requirements:
+1) conversion settings stored in a file with pure-name equal to that of the RAW; located in the same directory where the RAW is, or, less desirable, in a standard settings directory for the specific RAW converter
+2) white-balance represented by two or three numeric parameters (integer or fixed-point); each parameter changes monotonically with depth (though there are exceptions - like RawTherapee)
+3) the WB parameters are set by click-white-balance action and stored in the settings file
+4) the WB parameters are read from the settings file and applied to the image
+5) the converter permits changing WB parameters while being open - doesn't crash (nice-to-have feature)
+6) the converter allows applying new WB parameters following their change on disk - either automatically or by user-forced refresh
+7) value-ranges of the WB parameters are wide enough to accommodate rather extreme color corrections required for underwater photos; this relates to the values in settings files; those in GUI are too narrow in many converters
+
+So, here is the usual procedure to check the converter:
+- find the converter settings file: naming convention, how to force the converter to create it, how to configure the converter to place it alongside the RAW file
+- find WB parameters in the settings file; note that there could be several parameters' groups that resemble the WB parameters
+- verify you can change the WB parameters in the file, and the converter could be forced to apply the new values
+- verify that pick-while-balance action works correctly with extreme color cast; preferably try it with a RAW photo of neutral-color object taken at a depth of 20-30m (gray-target in the UWIC terminology)
+-- if red channel stays at zero, try decreasing black-point and/or switching off some of noise-reduction modes
+- verify that extreme WB parameters are correctly stored in settings files and read from there; look at the resulting colors after settings are applied from the file, not on the WB-parameters' values shown by the converter GUI
+- learn the meaning of WB parameters in this converter
+-- known options: R/G/B multipliers, color-temperature plus tint, color-temperature plus tint plus red-blue equalizer
+- learn how each WB parameter changes with depth
+- determine lower and upper limits for all WB parameters; do not look at the GUI, play with the settings file instead (GUI may have narrower bounds)
+- define consistency rules for the WB parameters: how each parameter can differ between two photos with known depth difference
+- determine normalization requirements for all WB parameters
+-- example: integer vs real, max precision for real values, etc.
+- provide two pairs of settings files - take two underwater images of some gray-targets taken at distinct depth - make two VALID settings files for each one:
+-- settings file resulting from click-white-balance action
+-- settings file with custom white-balance - e.g. with WB parameters' numeric values being directly set 
+-- do verify that one can change the WB parameters of the latter by editing, and the new values are applied
+
+Case study
+1) Corel AfterShot
+This is a canonical RAW converter when it comes to white-balance:
+- two standard WB parameters - "color-temperature" controls blue-yellow ratio, "tint" controls green-red ratio
+- color-temperature and tint are the WB parameters that appear both in GUI and in settings file
+- color-picker diameter is user-configurable - important to avoid extreme sensitivity
+- color-temperature monotonically ?grows? with depth, while tint - ?diminishes? with depth.
+An annoying drawback - the ranges of color-temperature and tint in the GUI are too narrow for underwater images. Fortunately the converter does deal with much wider range, but the values should be manipulated directly in the settings files.
+TODO: WB in the settings file of Corel AfterShot.
+2) RawTherapee
+RawTherapee is as odd as it goes:
+- it relies on three WB parameters -  "color-temperature" controls blue-yellow ratio, "tint" controls green-red ratio, and "red-blue equalizer" controls red-blue ratio
+- red-blue equalizer is not set automatically; the user should first choose its value, then peform the click-white-balance action
+- it's possible to achieve reasonably equal color-balance with different combinations of the three WB parameters; this may make further WB parameters interpolation kind of confusing
+- monotonic change with depth of color-temperature and tint occurs only while red-blue equalizer is kept constant
+- good news - same WB parameters appear in GUI and settings file
+- good news - range of WB parameters values in GUI matches that of the settings file
+

@@ -1,0 +1,74 @@
+cd d:/Photo/Sony_Nex_C3/230814__Kessaria_Grey_UW/Try/
+cd d:/Photo/Sony_Nex_C3/060914__Kessaria_Grey_UW/
+cd d:/Photo/Sony_Nex_C3/140914_Eilat_UW/
+
+###################################################################
+## Flow based on dcraw
+###################################################################
+source d:/Work/UW_Image_Depth/TCL/setup_uw_image_depth.tcl
+
+MakeNeutralFromRawColorTargets
+puts "==== Now crop gray-target images under '$NEUTRAL_DIR' to ensure target in the centre"
+#############################################
+
+
+puts "Please, ensure the dive-log is in [FindSavedLog]"
+
+DepthLogRead__SubsurfaceCSV timeList depthList
+MakeGreyCropsAndMapToDepth [FindNeutralImages] $timeList $depthList
+
+SortGreyTargetResults
+file copy  [FindSortedGreyData]  [FindFilteredGreyData];  # NO "-force"
+puts "==== Now drop the bad readings in '[FindFilteredGreyData]' ========"
+puts "==== Bad are readings that look unsatisfactory when normalized (under $NORMALIZED_DIR) ========"
+puts "==== Bad are readings that spoil a curve in gnuplot ======="
+
+
+##ReadGreyTargetResults depthList multListRGB
+
+#############################################
+###set gnuPlot [file nativename [file join "C:" "Program Files" "gnuplot" "bin" "gnuplot.exe"]]
+
+
+#puts [format {set logscale y;  plot '%s' using 3:5 title 'Green', '%s' using 3:6 title 'Blue'} [FindFilteredGreyData] [FindFilteredGreyData]]
+puts [format {unset logscale y;  plot '%s' using 3:5 title 'Green_S', '%s' using 3:8 title 'Green_C'} [FindFilteredGreyData] [FindFilteredGreyData]]
+puts [format {unset logscale y;  plot '%s' using 3:6 title 'Blue_S', '%s' using 3:9 title 'Blue_C'} [FindFilteredGreyData] [FindFilteredGreyData]]
+
+# in gnulot
+cd 'D:\Photo\Sony_Nex_C3\060914__Kessaria_Grey_UW\'
+#############################################
+
+ProcessUltimateRAWs_Dcraw
+
+
+
+
+###################################################################
+## Flow based on Corel AfterShot
+###################################################################
+source d:/Work/UW_Image_Depth/TCL/setup_uw_image_depth.tcl
+
+puts "Perform gray-point neutralization on all gray targets, then continue"
+
+
+puts "Please, ensure the dive-log is in '[FindSavedLog]'"
+
+DepthLogRead__SubsurfaceCSV timeList depthList
+ReadWBAndMapToDepth [FindRawColorTargetsSettings] $timeList $depthList
+
+SortGreyTargetResults
+file copy  [FindSortedGreyData]  [FindFilteredGreyData];  # NO "-force"
+puts "==== Now drop the bad readings in '[FindFilteredGreyData]' ========"
+puts "==== Bad are readings that look unsatisfactory when normalized (under $NORMALIZED_DIR) ========"
+puts "==== Bad are readings that spoil a curve in gnuplot ======="
+
+puts [format {unset logscale y;  plot '%s' using 3:4 title 'ColorTemp'} [FindFilteredGreyData]]
+puts [format {unset logscale y;  plot '%s' using 3:5 title 'ColorTint'} [FindFilteredGreyData]]
+
+# in gnulot
+cd 'D:\Photo\Sony_Nex_C3\060914__Kessaria_Grey_UW\'
+#############################################
+
+puts "Please change WB of all images to 'Custom Kelvin' before continuing"
+ProcessUltimateRAWs
+

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SL Engine="800">
+  <E K="FilmCurve" V="SonyNEXC3-Linear Response.fcrv" />
+  <E K="WhiteBalanceTint" V="14.574" />
+  <E K="WhiteBalanceTemperature" V="5521.495" />
+  <E K="GradationCurve" V="0.000,0.000;1.000,1.000" />
+  <E K="Name" V="DSC03743" />
+  <E K="UUID" V="f5c98f3c-626f-41bc-9666-c5a6efafad04" />
+  <E K="StyleSource" V="Styles" />
+</SL>

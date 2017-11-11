@@ -1,0 +1,64 @@
+Tk Toplevel Window Positioning
+(from:  http://computer-programming-forum.com/57-tcl/11e3284c9712f214.htm)
+
+: Is there any way for me to tell Tk where I want it to place the window when
+: it creates it? When building windows for use as complex dialog and entry
+: screens it is very frustrating to have the window "bouncing" around the
+: screen whenever it is pulled back up.
+
+There are, in fact, two solutions to your problem (the one you asked for,
+and the one I use).
+
+It is possible to get and set the position of a window:  "winfo geometry"
+and "wm geometry", respectively (RTFMp for args).  Note that winfo should
+be used to get the current geometry, instead of wm, as wm appears to give
+incorrect output (at least on my system).
+
+Now, how to apply this.  One set of functions I wrote traps the singnal
+used to close a window, and before it does it grabs the window's current
+geometry.  That way, when I want to open (or, more specifically, REopen) a
+window, I can call another function to restore it's geometry.  The upshot
+of all this is that a window, when reopend, will reopen in the same spot
+in which it was closed.
+
+Also, note that a window need not be destroyed to be closed, but mearly
+unmapped.  Tk will keep track of all of the widgets and windows within an
+unmapped toplevel (although it's geometry will be lost), but the window
+manager will have no knowledge of it.  This is done with "wm withdraw W"
+and "wm deiconify W".  This way you can create a window once (when the
+program first starts), and just open and close it at will.
+
+This is all simple enough to do:
+
+CreateWin does the actual toplevel creation and close-button binding.
+The new window is withdrawn until it is opened (widgets can be packed
+while it's withdrawn):
+  toplevel $w
+  wm withdraw $w
+  wm protocol $w WM_DELETE_WINDOW "CloseWin $w"
+
+OpenWin maps the window and sets its geometry, if it already has one.  The
+geometries for the windows are stored in an array Geoms(W).
+    if { [info exists Geoms($w)] } {
+    wm geometry $w $Geoms($w)
+  }
+
+  wm deiconify $w
+
+CloseWin saves a window's current geometry and unmaps it.  This is called
+by all routines wanting to close a window, including DELETE events from
+the window manager (i.e. clicking the close box).
+  if { [catch { winfo geom $w } g] } {
+    return
+  }
+
+  set Geoms($w) $g
+  wm withdraw $w
+
+That's about it.  I'll leave the actual implemintation up to you (these
+are just code snipets).  See the docs on "wm" and "winfo" for reference.
+
+Enjoy ...
+
+******************************************************************************
+           Steve McAndrewSmith          HTTP:  www.niftytech.com/~stevemc

@@ -1,0 +1,13 @@
+- try neutral conversion with -k 0
+- crop with 16bit-capable tool; affects accuracy and maybe zero samples
+- extrapolate colors outside measured range
+- take calls to "glob" into "catch"
+- protect from reading intermediate files from a different converter (?require name in comment?)
+- check why settings files aren't overriden when RawTherapee is open AND THERE'S NO ERROR MESSAGE
+- enable analyzing grey targets while no RAWs of the real photos exist
+- default RAW converter set to Corel, while the system tried to go with CaptureOne
+
+- known problem: depth-override entry doesn't permit having an empty string during editing; hard to fix
+
+- include a test for preferences rollback - triggered by missing last preference value
+

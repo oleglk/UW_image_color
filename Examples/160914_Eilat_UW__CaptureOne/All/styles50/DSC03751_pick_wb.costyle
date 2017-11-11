@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SL Engine="800">
+  <E K="ICCProfile" V="Generic.icm" />
+  <E K="FilmCurve" V="SonyNEXC3-Linear Response.fcrv" />
+  <E K="WhiteBalanceTint" V="-1.517" />
+  <E K="WhiteBalanceTemperature" V="13904.550" />
+  <E K="GradationCurve" V="0.000,0.000;1.000,1.000" />
+  <E K="Name" V="DSC03751_pick_wb" />
+  <E K="UUID" V="f7e7eae8-c5e8-40c7-963e-eeffd5f2fe74" />
+  <E K="StyleSource" V="Styles" />
+</SL>
