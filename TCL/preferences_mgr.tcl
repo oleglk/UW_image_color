@@ -50,10 +50,11 @@ proc PreferencesCollectAndWrite {}  {
 
 
 # Read preferences from file and installs them.
-# If 'oldValsDict' given, fills it with old values
+# If 'oldValsDict' given, fills it with old values on sucess, sets to 0 on fail
 proc PreferencesReadAndApply {{oldValsDict 0}}  {
   upvar $oldValsDict oldVals
   if { 0 == [set prefAsListOfPairs [PreferencesReadFromFile]] }  {
+    set oldVals 0;  # indicates no values available
     return  0;  # error already printed
    }
    return  [PreferencesApply $prefAsListOfPairs oldVals]

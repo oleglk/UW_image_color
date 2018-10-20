@@ -33,8 +33,12 @@ source [file join $SCRIPT_DIR   "main.tcl"]
 
 # load default settings if possible
 if { 0 == [PreferencesReadAndApply oldValsDict] }  {
-  ok_warn_msg "Default settings were not loaded; will use hardcoded preferences"
-  PreferencesRollback $oldValsDict
+  if { $oldValsDict != 0 }  {
+    ok_warn_msg "Default settings were not loaded; will restore hardcoded preferences"
+    PreferencesRollback $oldValsDict
+  } else {
+    ok_info_msg "Preferences were not modified - hardcoded settings preserved"
+  }
 } else {
   # perform initializations dependent on the saved preferences
   cdToWorkdirOrComplain 0;   # inits diagnostics log too
