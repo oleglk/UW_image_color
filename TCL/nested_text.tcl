@@ -1,33 +1,70 @@
 # nested_text.tcl
 
-set ::_OPEN  0 ;   # means opening bracket
-set ::_CLOSE 1 ;   # means closing bracket
+set ::_OPEN  0 ;   # means opening-bracket tag
+set ::_CLOSE 1 ;   # means closing-bracket tag
+set ::_BODY  2 ;   # means block's body (between opener and closer)
+
 
 set ::_nt_stack [list] ;  # for FIFO list of {type str} records (lists)
 
 
 # Returns folded version of 'inpTxt' folded around 'beginTag' and  'endTag'.
 # 'beginTag' and  'endTag' are regular-expression patterns.
-# 'numLevels' tells how many nesting levels to fold - from innermost. 0 means all.
+# 'foldFromLevel' tells from which level to start folding - counting from outermost. 0 means all.
 # On error returns 0.
-proc nested_text_fold {inpTxt beginTag endTag numLevels}  {
-  set tail $inpTxt ;  # unprocessed yet text
-  set nestList [nested_text_to_list $inpTxt $beginTag $endTag]
-  if { $nestList == 0 }  {  return  0 };  # error already printed
-  set outTxt [nested_text_from_list $nestList $beginTag $endTag $numLevels]
-  if { $outTxt == 0 }  {  return  0 };  # error already printed
-  return  $outTxt
+proc nested_text_fold {inpTxt beginTag endTag foldFromLevel}  {
+  #~ set tail $inpTxt ;  # unprocessed yet text
+  #~ set nestList [nested_text_to_list $inpTxt $beginTag $endTag]
+  #~ if { $nestList == 0 }  {  return  0 };  # error already printed
+  #~ set outTxt [nested_text_from_list $nestList $beginTag $endTag $numLevels]
+  #~ if { $outTxt == 0 }  {  return  0 };  # error already printed
+  #~ return  $outTxt
 }
 
 
-# 
-proc nested_text_to_list {inpTxt beginTag endTag} {
+# Returns (flat) list of records that describe fragments in text structure:
+#  {type nest-level begin-index end-index}
+#  type = _OPEN | _CLOSE | _BODY
+# If no tags found, returns 0.
+proc nested_text_parse_into_fragments {inpTxt beginTag endTag} {
   # TODO: implement
 }
 
 
+# Returns (flat) list of records that describe tagss in text structure:
+#  {type -1 begin-index end-index}
+#  type = _OPEN | _CLOSE
+# If no tags found, returns 0.
+proc nested_text_find_tag_positions {inpTxt beginTag endTag} {
+  set openTagsList_repeated [regexp -all -inline -indices -- $beginTag]
+  if { $openTagsList_repeated == "" }  { return  0 };   # nothing found
+  # [regexp -all -inline -indices {(\d+)} "01--4"]  ==>  {0 1} {0 1} {4 4} {4 4}
+  set openTagsList [dict keys $openTagsList_repeated];  # ==>  {0 1} {4 4} 
+  if { $closeTagsList_repeated == "" }  { return  0 };   # nothing found
+  set closeTagsList [dict keys $closeTagsList_repeated]
+  # build combined list of open- and close tags
+  set resList [list]
+  set curPos 0
+  set iOpen 0; set iClose 0; # current indices in 'openTagsList' & 'closeTagsList'
+  while { ($iOpen < [llength $openTagsList]) && \
+          ($iClose < [llength $closeTagsList]) }  {
+    set posOpen  [lindex [lindex $openTagsList $iOpen] 0]   ; # begin of open
+    set posClose [lindex [lindex $closeTagsList $iClose] 0] ; # begin of close
+    if { $posOpen < $posClose } {
+      set posEndOpen [lindex [lindex $openTagsList $iOpen] 1]
+      lappend resList [list $::_OPEN -1 $posOpen $posEndOpen]
+    } else {
+      set posEndClose [lindex [lindex $closeTagsList $iClose] 1]
+      lappend resList [list $::_CLOSE -1 $posClose $posEndClose]
+    }
+    # TODO: implement
+  }
+  # TODO: leftovers
+}
+
+
 # 
-proc nested_text_from_list {nestList beginTag endTag numLevels}   {
+proc nested_text_fold_by_taglist {inpTxt tagList foldFromLevel}   {
   # TODO: implement
 }
 
