@@ -165,3 +165,23 @@ proc SafeCheckNameInArray {name arrayName} {
   # puts "ok_name_in_array -> $result"
   return  $result
 }
+
+
+# Reads and returns as one string full settings file for 'pureName'.
+# On error returns "".
+proc ReadFileIntoString {fPath}  {
+  if { $fPath == "" }  {
+    ok_err_msg "Missing file path to read";    return  ""
+  }
+  if [catch {open $fPath "r"} fileId] {
+    ok_err_msg "Cannot open '$fPath' for reading: $fileId"
+    return  ""
+  }
+  set tclExecResult [catch {set data [read $fileId]} execResult]
+  if { $tclExecResult != 0 } {
+    ok_err_msg "Failed reading file for'$fPath': $execResult!"
+    return  ""
+  }
+  close $fileId
+  return $data
+}
