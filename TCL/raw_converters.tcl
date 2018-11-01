@@ -321,7 +321,7 @@ proc _WriteWBParamsIntoSettingsString {oldSettingsStr \
                                 [expr {([WBParam3IsUsed])? $newWBParam3 : ""}]]]
     if { 1 != [regsub $WBPARAM123_PATTERN $oldSettingsStr $newWBFullSpec123 \
                       newSettings] }  {
-      ok_err_msg "Failed overriding all [WBParamName 1],[WBParam3IsUsed] [WBParamName 2], [WBParamName 3] at once"
+      ok_err_msg "Failed overriding all [WBParamName 1], [WBParamName 2], [WBParamName 3] at once"
       return  0
     }
   }

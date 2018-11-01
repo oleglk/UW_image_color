@@ -31,7 +31,7 @@ source [file join $SCRIPT_DIR   "common_utils.tcl"]
 
 set SETTINGS_DIR    ""  ; # settings files stored together with RAWs
 
-set WBPARAM_NAMES {"red-multiplier" "green-multiplier" "blue-multiplier"}
+set WBPARAM_NAMES {"red-sample" "green-sample" "blue-sample"}
 
 set WBPARAM123_PATTERN {WhiteBalanceRawColor = \{\n([0-9.]+),\n([0-9.]+),\n([0-9.]+),\n\}}
 set WBPARAM1_PATTERN  $WBPARAM123_PATTERN
