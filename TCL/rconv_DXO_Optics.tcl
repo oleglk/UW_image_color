@@ -68,10 +68,10 @@ set WBPARAM2_SURFACE  -1
 set WBPARAM3_SURFACE  -1
 
 ## per-converter color-parameters' limits
-set WBPARAM1_MIN       1500
-set WBPARAM1_MAX       25000
-set WBPARAM2_MIN       -150
-set WBPARAM2_MAX       210
+set WBPARAM1_MIN       0
+set WBPARAM1_MAX       1
+set WBPARAM2_MIN       0
+set WBPARAM2_MAX       1
 set WBPARAM3_MIN      -1
 set WBPARAM3_MAX      -1
 ################################################################################
