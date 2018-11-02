@@ -128,11 +128,11 @@ proc SetRAWConverter {{rcName ""}} {
 SetRAWConverter $INITIAL_CONVERTER_NAME
 
 
-# Returns {wbParam1, wbParam2, wbParam3(or -1)}
-proc GetSurfaceColorParamsAsList {}  {
-  global WBPARAM1_SURFACE WBPARAM2_SURFACE WBPARAM3_SURFACE
-  return  [list $WBPARAM1_SURFACE $WBPARAM2_SURFACE $WBPARAM3_SURFACE]
-}
+#~ # Returns {wbParam1, wbParam2, wbParam3(or -1)}
+#~ proc UNUSED__GetSurfaceColorParamsAsList {}  {
+  #~ global WBPARAM1_SURFACE WBPARAM2_SURFACE WBPARAM3_SURFACE
+  #~ return  [list $WBPARAM1_SURFACE $WBPARAM2_SURFACE $WBPARAM3_SURFACE]
+#~ }
 
 
 #~ proc FindSettingsFiles {rawDir} {
