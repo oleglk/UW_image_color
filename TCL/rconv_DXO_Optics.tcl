@@ -31,9 +31,23 @@ source [file join $SCRIPT_DIR   "common_utils.tcl"]
 
 set SETTINGS_DIR    ""  ; # settings files stored together with RAWs
 
+################################################################################
+## DXO Optics stores and reads pick-color RGB measurements (not multipliers).
+## Need to switch into pick-WB mode by clicking anywhere with pick-color tool.
+#### Record example in the settings file:
+########  Overrides = {
+########  WhiteBalanceRawPreset = "ManualTemp",
+########  WhiteBalanceRawInputImageColor = {
+########  0.026504715904593468,
+########  0.12541073560714722,
+########  0.09593663364648819,
+########  }
+########  ,
+########  }
+################################################################################
 set WBPARAM_NAMES {"red-sample" "green-sample" "blue-sample"}
 
-set WBPARAM123_PATTERN {WhiteBalanceRawColor = \{\n([0-9.]+),\n([0-9.]+),\n([0-9.]+),\n\}}
+set WBPARAM123_PATTERN {WhiteBalanceRawInputImageColor = \{\n([0-9.]+),\n([0-9.]+),\n([0-9.]+),\n\}}
 set WBPARAM1_PATTERN  $WBPARAM123_PATTERN
 set WBPARAM1_SUBMATCH_INDEX 1
 set WBPARAM2_PATTERN  $WBPARAM123_PATTERN
@@ -41,7 +55,8 @@ set WBPARAM2_SUBMATCH_INDEX 2
 set WBPARAM3_PATTERN  $WBPARAM123_PATTERN
 set WBPARAM3_SUBMATCH_INDEX 3
 
-set WBPARAM123_FORMAT  {WhiteBalanceRawColor = {\n%.17f,\n%.17f,\n%.17f,\n}}
+# note, format strig enclosed in double-quotes, since curly braces mask <CR> 
+set WBPARAM123_FORMAT  "WhiteBalanceRawInputImageColor = {\n%.17f,\n%.17f,\n%.17f,\n}"
 set WBPARAM1_FORMAT  {}
 set WBPARAM2_FORMAT  {}
 set WBPARAM3_FORMAT  {}
@@ -58,6 +73,7 @@ set WBPARAM2_MIN       -150
 set WBPARAM2_MAX       210
 set WBPARAM3_MIN      -1
 set WBPARAM3_MAX      -1
+################################################################################
 
 set GREY_TARGET_DATA_HEADER_RCONV [list "global-time" "depth" "color-temp" "color-tint" "unused"] ;  # color-temperature and main tint
 

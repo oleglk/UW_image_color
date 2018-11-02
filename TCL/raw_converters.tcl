@@ -293,22 +293,22 @@ proc _WriteWBParamsIntoSettingsString {oldSettingsStr \
   global WBPARAM1_PATTERN WBPARAM2_PATTERN WBPARAM3_PATTERN WBPARAM123_PATTERN
   global WBPARAM1_FORMAT WBPARAM2_FORMAT WBPARAM3_FORMAT WBPARAM123_FORMAT
   upvar $newSettingsStr  newSettings
-  set newWBParam1   [ format $WBPARAM1_FORMAT $wbParam1]
-  set newWBParam2   [ format $WBPARAM2_FORMAT  $wbParam2]
-  set newWBParam3 [expr {([WBParam3IsUsed])? \
-                    [ format $WBPARAM3_FORMAT $wbParam3] : ""}]
   if { ![WBParamFormat123IsUsed] }  { ; # replace each WB param individually
-    if { 1 != [regsub $WBPARAM1_PATTERN $oldSettingsStr $newWBParam1 \
+    set newWBParam1   [ format $WBPARAM1_FORMAT $wbParam1]
+    set newWBParam2   [ format $WBPARAM2_FORMAT  $wbParam2]
+    set newWBParam3 [expr {([WBParam3IsUsed])? \
+                      [ format $WBPARAM3_FORMAT $wbParam3] : ""}]
+    if { 1 != [regsub -- $WBPARAM1_PATTERN $oldSettingsStr $newWBParam1 \
                       tmpSettings1] }  {
       ok_err_msg "Failed overriding [WBParamName 1]";  return  0
     }
-    if { 1 != [regsub $WBPARAM2_PATTERN $tmpSettings1 $newWBParam2 \
+    if { 1 != [regsub -- $WBPARAM2_PATTERN $tmpSettings1 $newWBParam2 \
                       tmpSettings2] }  {
       ok_err_msg "Failed overriding [WBParamName 2]";    puts $tmpSettings1
       return  0
     }
     if { [WBParam3IsUsed] }  {
-      if { 1 != [regsub $WBPARAM3_PATTERN $tmpSettings2 $newWBParam3 \
+      if { 1 != [regsub -- $WBPARAM3_PATTERN $tmpSettings2 $newWBParam3 \
                         newSettings] }  {
 
           ok_err_msg "Failed overriding [WBParamName 3]";  puts $tmpSettings2
@@ -316,11 +316,11 @@ proc _WriteWBParamsIntoSettingsString {oldSettingsStr \
       }
     } else {  set newSettings $tmpSettings2 }
   } else {                            ; # replace all WB params at once
-    set newWBFullSpec123 [format $WBPARAM123_PATTERN \
-                       {*}[list $newWBParam1 $newWBParam2 \
-                                [expr {([WBParam3IsUsed])? $newWBParam3 : ""}]]]
-    if { 1 != [regsub $WBPARAM123_PATTERN $oldSettingsStr $newWBFullSpec123 \
-                      newSettings] }  {
+    set newWBFullSpec123 [format $WBPARAM123_FORMAT \
+                                {*}[list $wbParam1 $wbParam2 \
+                                [expr {([WBParam3IsUsed])? $wbParam3 : ""}]]]
+    if { 1 != [regsub -- $WBPARAM123_PATTERN $oldSettingsStr $newWBFullSpec123 \
+                         newSettings] }  {
       ok_err_msg "Failed overriding all [WBParamName 1], [WBParamName 2], [WBParamName 3] at once"
       return  0
     }
