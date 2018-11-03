@@ -28,4 +28,4 @@
 + Verify/fix row and column weights in Preferences-window
 - Proxies for variables in Preferences-window where needed - to preserve old state if "Cancel" pressed
 - In CSV file reader compare num fields before discard-empty
-
+- Make blue-sample comparison depend on green-vs-blue water setting

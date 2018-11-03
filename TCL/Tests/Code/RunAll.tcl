@@ -24,7 +24,7 @@ set tclExecResult [catch {
 # do not use 'CONVERTER_NAME_LIST' - to enable subsets
 # keep the more available converter the last - for verification
 set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" \
-                        "CAPTURE-ONE" "COREL-AFTERSHOT"]
+                        "CAPTURE-ONE" "DXO-OPTICS" "COREL-AFTERSHOT"]
 ##set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" "COREL-AFTERSHOT"]
 #set allConverters [list "COREL-AFTERSHOT"]
 ################################################################################

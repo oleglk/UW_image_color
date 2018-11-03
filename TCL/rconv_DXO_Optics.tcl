@@ -63,37 +63,44 @@ set WBPARAM3_FORMAT  {}
 
 # TODO: MAKE IT PER-FILTER ARRAY
 # TODO: support upward extrapolation (EXTRAPOLATE_COLORS_ABOVE_DEPTH_RANGE_OPTIONAL_CALLBACK)
+# as of now, there per-conveter surface params aren't used
 set WBPARAM1_SURFACE  -1
 set WBPARAM2_SURFACE  -1
 set WBPARAM3_SURFACE  -1
 
 ## per-converter color-parameters' limits
 set WBPARAM1_MIN       0
-set WBPARAM1_MAX       1
+set WBPARAM1_MAX       7  ; # TODO: recheck
 set WBPARAM2_MIN       0
-set WBPARAM2_MAX       1
-set WBPARAM3_MIN      -1
-set WBPARAM3_MAX      -1
+set WBPARAM2_MAX       7  ; # TODO: recheck
+set WBPARAM3_MIN       0
+set WBPARAM3_MAX       7  ; # TODO: recheck
 ################################################################################
 
-set GREY_TARGET_DATA_HEADER_RCONV [list "global-time" "depth" "color-temp" "color-tint" "unused"] ;  # color-temperature and main tint
+set GREY_TARGET_DATA_HEADER_RCONV [list "global-time" "depth" "red-sample" "blue-sample" "green-sample"] ;  # color-channel measurements
 
-set IMAGE_DATA_HEADER_RCONV [list "global-time" "depth" "color-temp" "color-tint"] ;  # color temperature and main tint
+set IMAGE_DATA_HEADER_RCONV [list "global-time" "depth" "red-sample" "blue-sample" "green-sample"] ;  # color-channel measurements
 
 
 # Returns 1 if the two samples could be used together
-proc _AreGraySamplesConsistent_Aftershot {dataList1 dataList2}  {
-  # 'dataList1'/'dataList2': {pure-name depth time colorTemp colorTint [-1]}
-  ParseDepthColorRecord $dataList1 n1 time1 depth1 colorTemp1 colorTint1 tint21
-  ParseDepthColorRecord $dataList2 n2 time2 depth2 colorTemp2 colorTint2 tint22
+# TODO: make blue-sample comparison depend on green-vs-blue water setting
+proc _AreGraySamplesConsistent_DXO {dataList1 dataList2}  {
+  # 'dataList1'/'dataList2': {pure-name depth time redSamp greenSamp blueSamp}
+  ParseDepthColorRecord $dataList1 n1 time1 depth1 redSamp1 greenSamp1 blueSamp1
+  ParseDepthColorRecord $dataList2 n2 time2 depth2 redSamp2 greenSamp2 blueSamp2
+  # normalize the samples so that red value is 0.1
+  set mult1  [expr {0.1 / $redSamp1}];    set mult2  [expr {0.1 / $redSamp2}]
+  set red1   [expr {$mult1*$redSamp1}];   set red2   [expr {$mult2*$redSamp2}]
+  set blue1  [expr {$mult1*$blueSamp1}];  set blue2  [expr {$mult2*$blueSamp2}]
+  set green1 [expr {$mult1*$greenSamp1}]; set green2 [expr {$mult2*$greenSamp2}]
   if { ($depth2 > ($depth1 + [GetDepthResolution])) && \
-        ($colorTemp2 >= $colorTemp1) && ($colorTint2 >= $colorTint1) } {
-    #ok_trace_msg "_AreGraySamplesConsistent_Aftershot: {$depth1/$colorTemp1/$colorTint1} and {$depth2/$colorTemp2/$colorTint2} are consistent"
+        ($red2 <= $red1) && ($green2 >= $green1) && ($blue2 <= $blue1) } {
+    ok_trace_msg "_AreGraySamplesConsistent_DXO: {$depth1/$redSamp1/$greenSamp1/$blueSamp1} and {$depth2/$redSamp2/$greenSamp2/$blueSamp2} are consistent"
     return  1
   }
   return  0
 }
-set IS_SAMPLE_ADJACENT_CALLBACK _AreGraySamplesConsistent_Aftershot
+set IS_SAMPLE_ADJACENT_CALLBACK _AreGraySamplesConsistent_DXO
 
 
 set EXTRAPOLATE_COLORS_ABOVE_DEPTH_RANGE_OPTIONAL_CALLBACK 0; # use generic proc
@@ -102,14 +109,14 @@ set EXTRAPOLATE_COLORS_BELOW_DEPTH_RANGE_OPTIONAL_CALLBACK 0; # use generic proc
 
 proc SettingsFileName {pureName} {
   global RAW_EXTENSION
-  return  "$pureName.$RAW_EXTENSION.xmp"
+  return  "$pureName.$RAW_EXTENSION.dop"
 }
 
 
 proc FindSettingsFile {pureName rawDir {checkExist 1}} {
   global RAW_EXTENSION
   return  [FindFilePath $rawDir $pureName \
-                        "$RAW_EXTENSION.xmp" "Settings" \
+                        "$RAW_EXTENSION.dop" "Settings" \
                         $checkExist]
 }
 
@@ -117,7 +124,7 @@ proc FindSettingsFile {pureName rawDir {checkExist 1}} {
 #~ proc SettingsFileNameToPurename {settingsName} {
   #~ global RAW_EXTENSION
   #~ set settingsName [string toupper $settingsName]
-  #~ set fullExt [string toupper ".$RAW_EXTENSION.xmp"]
+  #~ set fullExt [string toupper ".$RAW_EXTENSION.dop"]
   #~ set idx [string first $fullExt $settingsName]
   #~ #ok_trace_msg "'$settingsName' -> '$fullExt' at \[$idx\]"
   #~ if { $idx <= 0 }  {  return  "" }
@@ -125,12 +132,9 @@ proc FindSettingsFile {pureName rawDir {checkExist 1}} {
 #~ }
 
 
-# Converts values in 'wbParamsListVar' {temp, tint} into integers
+# Does no change - for DXO Optics
 proc MassageColorParamsForConverter {wbParamsListVar} {
-  upvar $wbParamsListVar colorTempTint
-  ParseWBParamsForConverter $colorTempTint colorTemp colorTint dummyTint2
-  set colorTempM [expr round($colorTemp)]
-  set colorTintM [expr round($colorTint)]
-  set colorTempTint [PackWBParamsForConverter $colorTempM $colorTintM \
-                                                                  $dummyTint2]
+  #~ upvar $wbParamsListVar rgb
+  #~ ParseWBParamsForConverter $rgb redSamp greenSamp blueSamp
+  #~ set rgb [PackWBParamsForConverter $redSampM $greenSampM $blueSampM]
 }

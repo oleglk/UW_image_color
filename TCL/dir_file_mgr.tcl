@@ -528,6 +528,7 @@ proc FindRawExtensionsInDir {dirPath} {
 # Returns list of extensions (no dot) for files matching "[^./]+\.([^./]+)"
 proc FindSingleDotExtensionsInDir {dirPath} {
   set pattern {[^./]+\.([^./]+)$}
+  ok_trace_msg "Searching in '$dirPath'"
   set candidates [glob -nocomplain -directory $dirPath -- "*.*"]
   array unset extensionsArr
   foreach f $candidates {
