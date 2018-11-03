@@ -84,6 +84,7 @@ set IMAGE_DATA_HEADER_RCONV [list "global-time" "depth" "red-sample" "blue-sampl
 
 # Returns 1 if the two samples could be used together
 # TODO: make blue-sample comparison depend on green-vs-blue water setting
+# TODO: for now blue-samples are ignored
 proc _AreGraySamplesConsistent_DXO {dataList1 dataList2}  {
   # 'dataList1'/'dataList2': {pure-name depth time redSamp greenSamp blueSamp}
   ParseDepthColorRecord $dataList1 n1 time1 depth1 redSamp1 greenSamp1 blueSamp1
@@ -94,8 +95,9 @@ proc _AreGraySamplesConsistent_DXO {dataList1 dataList2}  {
   set blue1  [expr {$mult1*$blueSamp1}];  set blue2  [expr {$mult2*$blueSamp2}]
   set green1 [expr {$mult1*$greenSamp1}]; set green2 [expr {$mult2*$greenSamp2}]
   if { ($depth2 > ($depth1 + [GetDepthResolution])) && \
-        ($red2 <= $red1) && ($green2 >= $green1) && ($blue2 <= $blue1) } {
+        ($red2 <= $red1) && ($green2 >= $green1) } {
     ok_trace_msg "_AreGraySamplesConsistent_DXO: {$depth1/$redSamp1/$greenSamp1/$blueSamp1} and {$depth2/$redSamp2/$greenSamp2/$blueSamp2} are consistent"
+    ok_trace_msg "_AreGraylesConsistent_DXO (normalized): {$depth1/$red1/$green1/$blue1} and {$depth2/$red2/$green2/$blue2} are consistent"
     return  1
   }
   return  0
