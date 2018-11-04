@@ -7,9 +7,9 @@ global SETTINGS_DIR
 ## per-converter color-parameters' names
 global WBPARAM_NAMES
 ## per-converter color-parameter keywords in conversion settings files
-global WBPARAM1_PATTERN WBPARAM2_PATTERN WBPARAM3_PATTERN
+global WBPARAM123_PATTERN WBPARAM1_PATTERN WBPARAM2_PATTERN WBPARAM3_PATTERN
 global WBPARAM1_SUBMATCH_INDEX WBPARAM2_SUBMATCH_INDEX WBPARAM3_SUBMATCH_INDEX
-global WBPARAM1_FORMAT WBPARAM2_FORMAT WBPARAM3_FORMAT
+global WBPARAM123_FORMAT WBPARAM1_FORMAT WBPARAM2_FORMAT WBPARAM3_FORMAT
 global WBPARAM1_SURFACE WBPARAM2_SURFACE WBPARAM3_SURFACE
 ## per-converter color-parameters' limits
 global WBPARAM1_MIN WBPARAM1_MAX WBPARAM2_MIN WBPARAM2_MAX
@@ -33,6 +33,7 @@ set SETTINGS_DIR    ""  ; # settings files stored together with RAWs
 
 set WBPARAM_NAMES {"color-temperature" "color-tint" ""}
 
+set WBPARAM123_PATTERN  "" ;  # indicate it's unused
 set WBPARAM1_PATTERN   {bopt:kelvin="([0-9]+)"}
 set WBPARAM1_SUBMATCH_INDEX 1
 set WBPARAM2_PATTERN   {bopt:tint="([0-9]+)"}
@@ -40,6 +41,7 @@ set WBPARAM2_SUBMATCH_INDEX 1
 set WBPARAM3_PATTERN  {}
 set WBPARAM3_SUBMATCH_INDEX -1
 
+set WBPARAM123_FORMAT  "" ; # indicate it's unused
 set WBPARAM1_FORMAT  {bopt:kelvin="%d"}
 set WBPARAM2_FORMAT  {bopt:tint="%d"}
 set WBPARAM3_FORMAT {}
