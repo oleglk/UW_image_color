@@ -1,9 +1,9 @@
 # RunAll.tcl - runs all tests
 
 # Invocation examples:
-##  cd C:/TMP/UWIC/;  source c:/Oleg/Work/UW_image_depth/TCL/Tests/Code/RunAll.tcl
-##  file mkdir f:/UWIC_TEST;  cd f:/UWIC_TEST;  source c:/Oleg/Work/UW_image_depth/TCL/Tests/Code/RunAll.tcl
-##  cd D:/ANY/TMP/UWIC/;  source D:/Work/UW_image_depth/TCL/Tests/Code/RunAll.tcl
+##  cd C:/TMP/UWIC/;  source c:/Oleg/Work/UW_image_color/TCL/Tests/Code/RunAll.tcl
+##  file mkdir f:/UWIC_TEST;  cd f:/UWIC_TEST;  source c:/Oleg/Work/UW_image_color/TCL/Tests/Code/RunAll.tcl
+##  cd D:/ANY/TMP/UWIC/;  source D:/Work/UW_image_color/TCL/Tests/Code/RunAll.tcl
 
 
 set TESTCODE_DIR [file dirname [file normalize [info script]]]
@@ -24,7 +24,9 @@ set tclExecResult [catch {
 # do not use 'CONVERTER_NAME_LIST' - to enable subsets
 # keep the more available converter the last - for verification
 set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" \
-                        "CAPTURE-ONE" "DXO-OPTICS" "COREL-AFTERSHOT"]
+                        "CAPTURE-ONE" "COREL-AFTERSHOT"]
+#~ set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" \
+                        #~ "CAPTURE-ONE" "DXO-OPTICS" "COREL-AFTERSHOT"]
 ##set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" "COREL-AFTERSHOT"]
 #set allConverters [list "COREL-AFTERSHOT"]
 ################################################################################
