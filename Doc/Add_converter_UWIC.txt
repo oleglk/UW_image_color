@@ -1,4 +1,4 @@
-﻿Adding RAW converters to UWIC
+Adding RAW converters to UWIC
 
 Requirements for the converter
 ==============================
@@ -47,4 +47,10 @@ RawTherapee is as odd as it goes:
 - monotonic change with depth of color-temperature and tint occurs only while red-blue equalizer is kept constant
 - good news - same WB parameters appear in GUI and settings file
 - good news - range of WB parameters values in GUI matches that of the settings file
+3) DXO Optics 11
+This converter behaves the best so far when the user experience is considered. It has no click-WB parameter that requires manual adjustment, and extreme correction doesn't force the GUI out-of-scale.
+But it does exhibit some oddity it its setting files - the semantics of WB override reflecs the last action performed through the GUI:
+- TODO
 
+- 
+ 
