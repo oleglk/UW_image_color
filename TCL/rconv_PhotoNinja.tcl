@@ -7,7 +7,7 @@ global SETTINGS_DIR
 ## per-converter color-parameters' names
 global WBPARAM_NAMES
 ## per-converter color-parameter keywords in conversion settings files
-global WBPARAM1_PATTERN WBPARAM2_PATTERN WBPARAM3_PATTERN
+global WBPARAM123_PATTERN WBPARAM1_PATTERN WBPARAM2_PATTERN WBPARAM3_PATTERN
 global WBPARAM1_SUBMATCH_INDEX WBPARAM2_SUBMATCH_INDEX WBPARAM3_SUBMATCH_INDEX
 global WBPARAM1_FORMAT WBPARAM2_FORMAT WBPARAM3_FORMAT
 global WBPARAM1_SURFACE WBPARAM2_SURFACE WBPARAM3_SURFACE
@@ -39,6 +39,7 @@ set WBPARAM_NAMES {"red-divider" "green-divider" "blue-divider"}
 # color-temperature and tint lines exist but aren't read
 # ( open-brace indices                  12       3  4           56       7  8           9 )
 set _COMMON_WB_PATTERN  {<pn:WBRawWhite>(([0-9]+)(\.([0-9]+))?) (([0-9]+)(\.([0-9]+))?) (([0-9]+)(\.([0-9]+))?)</pn:WBRawWhite>}
+set WBPARAM123_PATTERN  "" ;  # indicate it's unused
 set WBPARAM1_PATTERN   $_COMMON_WB_PATTERN
 set WBPARAM1_SUBMATCH_INDEX 1
 set WBPARAM2_PATTERN   $_COMMON_WB_PATTERN
@@ -46,6 +47,7 @@ set WBPARAM2_SUBMATCH_INDEX 5
 set WBPARAM3_PATTERN  $_COMMON_WB_PATTERN
 set WBPARAM3_SUBMATCH_INDEX 9
 
+set WBPARAM123_FORMAT  "" ; # indicate it's unused
 set WBPARAM1_FORMAT  {<pn:WBRawWhite>%.4f \5 \9</pn:WBRawWhite>}
 set WBPARAM2_FORMAT  {<pn:WBRawWhite>\1 %.4f \9</pn:WBRawWhite>}
 set WBPARAM3_FORMAT {<pn:WBRawWhite>\1 \5 %.4f</pn:WBRawWhite>}
