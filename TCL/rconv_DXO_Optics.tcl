@@ -147,9 +147,15 @@ proc FindSettingsFile {pureName rawDir {checkExist 1}} {
 #~ }
 
 
-# Does no change - for DXO Optics
+# Scales the samples so that the biggest one becomes 1.0
 proc MassageColorParamsForConverter {wbParamsListVar} {
-  #~ upvar $wbParamsListVar rgb
-  #~ ParseWBParamsForConverter $rgb redSamp greenSamp blueSamp
-  #~ set rgb [PackWBParamsForConverter $redSampM $greenSampM $blueSampM]
+  upvar $wbParamsListVar rgb
+  ParseWBParamsForConverter $rgb redSamp greenSamp blueSamp
+  # using 'lsort is inefficient but handles float nunbers
+  set maxVal [lindex [lsort -real -decreasing $rgb] 0]
+  set mult [expr 1.0 / $maxVal]
+  set redSampM    [expr {$mult * $redSamp}]
+  set greenSampM  [expr {$mult * $greenSamp}]
+  set blueSampM   [expr {$mult * $blueSamp}]
+  set rgb [PackWBParamsForConverter $redSampM $greenSampM $blueSampM]
 }
