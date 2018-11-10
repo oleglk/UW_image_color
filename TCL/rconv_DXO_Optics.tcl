@@ -109,6 +109,19 @@ set EXTRAPOLATE_COLORS_ABOVE_DEPTH_RANGE_OPTIONAL_CALLBACK 0; # use generic proc
 set EXTRAPOLATE_COLORS_BELOW_DEPTH_RANGE_OPTIONAL_CALLBACK 0; # use generic proc
 
 
+# optional helper callback to assist in testing
+# takes 2 lists of WB-params; returns 1/0 (==/!=)
+proc _AreWbParamsEqu_DXO {wbParams1 wbParams2}  {
+  set tolerance 0.000001
+  for { set i 0 }  { $i < [expr {([WBParam3IsUsed])? 3 : 2}] }  { incr i 1 }  {
+    set absdiff [expr {abs( [lindex $wbParams1 $i] - [lindex $wbParams2 $i] )}]
+    if { $absdiff >= $tolerance }  { return  0 }
+  }
+  return  1
+}
+set WBPARAMS_EQU_OPTIONAL_CALLBACK  _AreWbParamsEqu_DXO
+
+
 proc SettingsFileName {pureName} {
   global RAW_EXTENSION
   return  "$pureName.$RAW_EXTENSION.dop"

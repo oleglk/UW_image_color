@@ -50,6 +50,12 @@ set WBPARAM3_MAX       -1
 set GREY_TARGET_DATA_HEADER_RCONV {}
 set IMAGE_DATA_HEADER_RCONV       {}
 
+
+# optional helper callback to assist in testing
+# takes 2 lists of WB-params; returns 1/0 (==/!=)
+set WBPARAMS_EQU_OPTIONAL_CALLBACK 0
+################################################################################
+
 set IS_SAMPLE_ADJACENT_CALLBACK  0
 set EXTRAPOLATE_COLORS_ABOVE_DEPTH_RANGE_OPTIONAL_CALLBACK 0; #shallower than min
 set EXTRAPOLATE_COLORS_BELOW_DEPTH_RANGE_OPTIONAL_CALLBACK 0; #deeper than max

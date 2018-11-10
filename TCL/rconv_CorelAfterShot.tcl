@@ -63,6 +63,11 @@ set GREY_TARGET_DATA_HEADER_RCONV [list "global-time" "depth" "color-temp" "colo
 
 set IMAGE_DATA_HEADER_RCONV [list "global-time" "depth" "color-temp" "color-tint"] ;  # color temperature and main tint
 
+# optional helper callback to assist in testing
+# takes 2 lists of WB-params; returns 1/0 (==/!=)
+set WBPARAMS_EQU_OPTIONAL_CALLBACK 0
+################################################################################
+
 
 # Returns 1 if the two samples could be used together
 proc _AreGraySamplesConsistent_Aftershot {dataList1 dataList2}  {

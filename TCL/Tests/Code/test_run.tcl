@@ -265,9 +265,15 @@ proc CheckDepthToColorMapSanity {pathDict} {
 
 proc _SortedListsEQU {ls1 ls2} {
   set n [llength $ls1]
-  if { $n != [llength $ls2] } { return 0 }
+  if { $n != [llength $ls2] } {
+    ok_trace_msg "@TMP@ Length mismatch: [llength $ls1] vs [llength $ls2]\t({$ls1} vs {$ls2})"
+    return 0
+  }
   for {set i 0} {$i < $n} {incr i} {
-    if { [lindex $ls1 $i] != [lindex $ls2 $i] }  { return  0 }
+    if { [lindex $ls1 $i] != [lindex $ls2 $i] }  {
+      ok_trace_msg "@TMP@ At $i: '[lindex $ls1 $i]' vs '[lindex $ls2 $i]'"
+      return  0
+    }
   }
   return  1
 }
@@ -395,6 +401,7 @@ proc CheckUltimateWBData {pathDict {changedPurenames 0}}  {
 
 proc CompareUltimatePhotosSettingsWithWBData {pathDict}  {
   global CONVERTER_NAME SETTINGS_DIR
+  global WBPARAMS_EQU_OPTIONAL_CALLBACK
   set rawPaths [dict get $pathDict "PHOTOS"]
   set purenamesRAWPhoto [BuildSortedPurenamesList $rawPaths]
   ok_trace_msg "RAW of PHOTOS: {$purenamesRAWPhoto}"
@@ -442,8 +449,17 @@ proc CompareUltimatePhotosSettingsWithWBData {pathDict}  {
       return  0
     }
 
-    if { ($cp1 != $scp1) || ($cp2 != $scp2) || \
-         ((1 == [WBParam3IsUsed]) && ($cp3 != $scp3)) }  {
+    if { $WBPARAMS_EQU_OPTIONAL_CALLBACK != 0 }  {
+      set wbParams1 [list $cp1 $cp2]
+      if { [WBParam3IsUsed] }  { lappend wbParams1 $cp3 }
+      set wbParams2 [list $scp1 $scp2]
+      if { [WBParam3IsUsed] }  { lappend wbParams2 $scp3 }
+      set allEqu [$WBPARAMS_EQU_OPTIONAL_CALLBACK $wbParams1 $wbParams2]
+    } else {
+      set allEqu [expr { ($cp1 == $scp1) && ($cp2 == $scp2) && \
+                         ((0 == [WBParam3IsUsed]) || ($cp3 == $scp3)) }]
+    }
+    if { $allEqu == 0 }   {
       ok_err_msg "Mismatch in WB parameters for '$pureName': {$cp1 $cp2 $cp3} in the datafile ($wbResultsDataPath) vs {$scp1 $scp2 $scp3} in the settings file ($sP)"
       return  0
     }

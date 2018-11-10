@@ -20,6 +20,10 @@ global GREY_TARGET_DATA_HEADER_RCONV IMAGE_DATA_HEADER_RCONV
 global IS_SAMPLE_ADJACENT_CALLBACK
 global EXTRAPOLATE_COLORS_ABOVE_DEPTH_RANGE_OPTIONAL_CALLBACK; #shallower than min
 global EXTRAPOLATE_COLORS_BELOW_DEPTH_RANGE_OPTIONAL_CALLBACK; #deeper than max
+
+# optional helper callback to assist in testing
+# takes 2 lists of WB-params; returns 1/0 (==/!=)
+set WBPARAMS_EQU_OPTIONAL_CALLBACK 0
 ################################################################################
 
 
