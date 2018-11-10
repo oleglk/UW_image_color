@@ -394,8 +394,11 @@ proc CheckUltimateWBData {pathDict {changedPurenames 0}}  {
     return  0
   }
   # TODO: it fails at close depths because of CB restriction made for targets
-  return  [_CheckSortedDepthColorRecordsConsistency $allWBlistNoHdr \
-                        "merged WB records of ultimate photos and WB targets"]
+  if { 0 == [set isOK [_CheckSortedDepthColorRecordsConsistency $allWBlistNoHdr \
+                    "merged WB records of ultimate photos and WB targets"]] }  {
+    ok_trace_msg "Full merged list with the problem: {$allWBlistNoHdr}"
+  }
+  return  $isOK
 }
 
 
