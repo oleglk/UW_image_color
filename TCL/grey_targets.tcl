@@ -238,6 +238,9 @@ proc ComputeWBParamsAtDepth {depth depthList wbParamList} {
   set depth2 [lindex $depthList $posAfter]
   set wbParams1 [lindex $wbParamList $posBefore]
   set wbParams2 [lindex $wbParamList $posAfter]
+  # postprocess color parameters for consistency with gray targets
+  MassageColorParamsForConverter wbParams1
+  MassageColorParamsForConverter wbParams2
   set iColorParamMax [expr {([WBParam3IsUsed])? 2 : 1}]
   set colorParamIdxList [lrange {0 1 2} 0 $iColorParamMax]; # temperature,tint1,tint2(or -1)
   ok_trace_msg "ComputeWBParamsAtDepth: $depth in ($depth1...$depth2) -> ($wbParams1...$wbParams2)"
@@ -261,6 +264,7 @@ proc ComputeWBParamsAtDepth {depth depthList wbParamList} {
     foreach iColorParam $colorParamIdxList { ;  # temperature, tint1, tint2(or -1)
       set p1 [lindex $wbParams1 $iColorParam]; set p2 [lindex $wbParams2 $iColorParam]
       set p  [expr 1.0* $p1 + $offset*($p2-$p1)]
+      ok_trace_msg "Compute WBparam$iColorParam at $depth \[m\]: ($p1 + $offset * ($p2 - $p1)) = $p"
       lappend wbParams $p
     }
   }
