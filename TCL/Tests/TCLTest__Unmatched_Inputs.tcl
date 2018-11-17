@@ -50,6 +50,8 @@ proc _TestCustomFlow {workDir rawConvName} {
   
   
   ################# Map-Depth-To-Color #########################################
+  #ok_pause "-@- 01"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Map-Depth-To-Color while some settings files are missing\n"
   # hide some settings files; flow-stage should fail
   if { 0 == [_HideSomeInputs $workDir $pathDict3 1 renamedPaths] } {
     return  0;  # error already printed
@@ -66,6 +68,8 @@ proc _TestCustomFlow {workDir rawConvName} {
   }
   
   # hide some RAW files (targets and photos); flow-stage should pass
+  #ok_pause "-@- 02"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Map-Depth-To-Color while some RAW files are missing\n"
   if { 0 == [_HideSomeInputs $workDir $pathDict3 0 renamedPaths] } {; # hide RAWs
     return  0;  # error already printed
   }
@@ -79,6 +83,8 @@ proc _TestCustomFlow {workDir rawConvName} {
 
   ################# Process-All-Photos #########################################
   # hide some settings files; flow-stage should fail
+  #ok_pause "-@- 03"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Process-All-Photos while some settings- and RAW files are missing\n"
   if { 0 == [_HideSomeInputs $workDir $pathDict5 1 renamedPaths] } {
     return  0;  # error already printed
   }
@@ -94,12 +100,16 @@ proc _TestCustomFlow {workDir rawConvName} {
   }
 
   # flow-stage should pass despite that some RAWs are hidden
+  #ok_pause "-@- 04"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Process-All-Photos while some RAW files are missing\n"
   set pathDict6 [FlowStep_ProcAllRAWs $workDir $rawConvName]
   if { $pathDict6 == 0 }  { return  0 }
   if { 0 == [VerifyInputsPreserved $pathDict5 $pathDict6 1 1] }  { return  0 }
   
   
   ################# Process-Changed-Photos #####################################
+  #ok_pause "-@- 05"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Process-Changed-Photos while some settings files are missing\n"
   # hide some settings files; flow-stage should fail
   if { 0 == [_HideSomeInputs $workDir $pathDict6 1 renamedPaths] } {
     return  0;  # error already printed
@@ -115,7 +125,18 @@ proc _TestCustomFlow {workDir rawConvName} {
     return  0;  # error already printed
   }
   
+  ##############################################################################
+  # Depth-override simulation's choice of images depends on full settings-file name list,
+  # and thus differs between prev. and next
+  ##############################################################################
+    # Restore original depth-override file to avoid inclusion of images overriden by the previous iteration but not the next one.
+  if { 0 == [BackupThenResetDepthOverrideIfExists] }  {
+    return  0;  # error already printed
+  }
+  
   # hide some RAW files (targets (unimportant) and photos); flow-stage should pass
+  #ok_pause "-@- 06"
+  ok_info_msg "\n\n=TCLTest__Unmatched_Inputs=== Test Process-Changed-Photos while some RAW files are missing\n"
   if { 0 == [_HideSomeInputs $workDir $pathDict6 0 renamedPaths] } {; # hide RAWs
     return  0;  # error already printed
   }

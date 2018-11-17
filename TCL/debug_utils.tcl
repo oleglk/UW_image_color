@@ -39,6 +39,14 @@ proc ok_pri_list_as_list {theList} {
     puts ""
 }
 
+
+proc ok_pause {{message "Execution paused. Hit Enter to continue ==> "}} {
+    puts -nonewline $message
+    flush stdout
+    gets stdin
+}
+
+
 ###############################################################################
 ########## Messages/Errors/Warning ################################
 set _CNT_ERR_WARN  0;  # counter of problems

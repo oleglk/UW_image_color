@@ -105,6 +105,16 @@ proc FormatWorkAreaStuff {pathDict {preffix ""}}  {
 }
 
 
+proc FormatSortedWorkAreaStuff {pathDict {preffix ""}}  {
+  set str ""
+  foreach key [lsort [dict keys $pathDict]]  {
+    set value [dict get $pathDict $key]
+    set str [format "%s\n%s%s :: {%s}" $str $preffix $key $value]
+  }
+  return $str
+}
+
+
 proc FormatOldAndNewWorkAreaStuff {pathDictOld pathDictNew {preffix ""}}  {
   set strOld [FormatWorkAreaStuff $pathDictOld [format "%s(Old)" $preffix]]
   set strNew [FormatWorkAreaStuff $pathDictNew [format "%s(New)" $preffix]]
@@ -177,8 +187,49 @@ proc FilterFilepathListByRegexp {namePattern pathList pickORdrop} {
 }
 
 
-# Changes depth in some of the records in 'ovrdFullPath'.
-# Returns list of affected purenames.
+# Resets depth to estimated-depth in all the records in 'ovrdFullPath'.
+# Returns 1 on success, 0 on error. Does not alter the actual settings files.
+proc ResetDepthOverride {ovrdFullPath} {
+  set HEADER_PATTERN "pure-name";   # 1st token in the header line
+  if { 0 == [file exists $ovrdFullPath] } {
+    ok_err_msg "Missing initial depth-override file '$ovrdFullPath'."
+    return  0
+  }
+  array unset depthOvrdArr;  # essential init-s
+  if { 0 >= [TopUtils_ReadIntoArrayDepthOverrideCSV depthOvrdArr 1] } {
+    ok_err_msg "Failed reading depth-override file '$ovrdFullPath'."
+    return  0
+  }
+  if { 0 == [array size depthOvrdArr] }  {
+    ok_err_msg "No records in depth-override file '$ovrdFullPath'."
+    return  0
+  }
+  # depthOvrdArr = pure-name::{global-time,min-depth,max-depth,estimated-depth,depth}
+  # depthOvrdArr includes the header
+  foreach pureName [array names depthOvrdArr] {
+    if { 1 == [regexp $HEADER_PATTERN $pureName] } { continue };  # skip header
+    if { 0 == [TopUtils_ParseDepthOverrideRecord depthOvrdArr $pureName \
+                    globalTime minDepth maxDepth estimatedDepth depth] }  {
+      ok_err_msg "Invalid depth-override record for '$pureName': '$depthOvrdArr($pureName)'"
+      return  0
+    }
+    TopUtils_PackDepthOverrideRecord depthOvrdArr $pureName \
+                $globalTime $minDepth $maxDepth $estimatedDepth $estimatedDepth
+  }
+  ok_info_msg "Did reset depth-override of [array size depthOvrdArr] image(s)"
+  # save the new version of depth-override data; don't touch the "previous"
+  if { 0 == [ok_write_array_of_lists_into_csv_file depthOvrdArr \
+                                     $ovrdFullPath $HEADER_PATTERN " "] }  {
+    ok_err_msg "Failed to save reset depth-override data in '$ovrdFullPath]'"
+    return  0
+  }
+  ok_info_msg "Reset depth-override data printed into '$ovrdFullPath]'"
+  return  1
+}
+
+
+# Changes depth in some of the records in 'ovrdFullPath' (in each 2nd record).
+# Returns list of affected purenames. Does not alter the actual settings files.
 proc SimulateDepthOverride {ovrdFullPath} {
   set HEADER_PATTERN "pure-name";   # 1st token in the header line
   if { 0 == [file exists $ovrdFullPath] } {
@@ -206,6 +257,7 @@ proc SimulateDepthOverride {ovrdFullPath} {
       return  0
     }
     if { $changeCurrent == 0 }  { continue }
+    ok_info_msg "Image '$pureName' picked for depth-override simulation"
     set depth [expr 1.5 * $depth]; # TODO: multipllier based on depth resolution
     lappend changedPurenames $pureName
     TopUtils_PackDepthOverrideRecord depthOvrdArr $pureName \
@@ -223,16 +275,36 @@ proc SimulateDepthOverride {ovrdFullPath} {
 }
 
 
+# Backups then resets (to estimated depths) BOTH current- and previous
+# depth-override files
+proc BackupThenResetDepthOverrideIfExists {}  {
+  set lastTrashDir [GetLastTrashDirPath]
+  foreach doPath [list [FindDepthOvrdData] [FindOldDepthOvrdData]]  {
+    set destPath [file join $lastTrashDir [file tail $doPath]]
+    if { 1 == [file exists $doPath] }  {
+      #ok_pause "///// Before backing-up last depth-ovrd file '$doPath' as '$destPath'; press <CR>"
+      ok_info_msg "Backing-up last depth-ovrd file '$doPath' as '$destPath'"
+      file copy -force $doPath $destPath
+      if { 0 == [ResetDepthOverride $doPath] }  { return  0 }; # error printed
+    }
+  }
+  return  1
+}
+
+
 proc ForcedBackupDepthOverrideIfExists {}  {
   set lastDepthOvrdPath  [FindDepthOvrdData]
   set lastTrashDir [GetLastTrashDirPath]
   set destPath [file join $lastTrashDir [file tail $lastDepthOvrdPath]]
   if { 1 == [file exists $lastDepthOvrdPath] }  {
+    #ok_pause "///// Before backing-up last depth-ovrd file '$lastDepthOvrdPath' as '$destPath'; press <CR>"
+    ok_info_msg "Backing-up last depth-ovrd file '$lastDepthOvrdPath' as '$destPath'"
     file copy -force $lastDepthOvrdPath $destPath
     return  $destPath
   }
   return  ""
 }
+
 
 proc _InitDirStructure {workRootPath} {
   global DATA_DIR

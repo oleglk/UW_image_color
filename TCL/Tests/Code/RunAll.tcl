@@ -24,12 +24,12 @@ set tclExecResult [catch {
 # do not use 'CONVERTER_NAME_LIST' - to enable subsets
 # keep the more available converter the last - for verification
 set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" \
-                        "CAPTURE-ONE" "COREL-AFTERSHOT"]
+                        "CAPTURE-ONE" "COREL-AFTERSHOT" "DXO-OPTICS"]
 #~ set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" \
                         #~ "CAPTURE-ONE" "DXO-OPTICS" "COREL-AFTERSHOT"]
 ##set allConverters [list "RAW-THERAPEE" "PHOTO-NINJA" "COREL-AFTERSHOT"]
 #set allConverters [list "COREL-AFTERSHOT"]
-set allConverters [list "DXO-OPTICS"]
+#set allConverters [list "DXO-OPTICS"]
 ################################################################################
 
 #set allTests [list /home/mrv/workspace/op/main/ifcmgr/test/tcl/TCLTest__ifIndex.tcl /home/mrv/workspace/op/main/ifcmgr/test/tcl/TCLTest__Dump_02_no_trunks.tcl]
