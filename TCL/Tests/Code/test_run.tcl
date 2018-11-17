@@ -124,42 +124,27 @@ proc FlowStep_ProcAllRAWs {workDir rawConvName}  {
 
 proc FlowStep_ProcChangedRAWs {workDir rawConvName}  {
   if { 0 == [set pathDict [ListWorkAreaStuff]] } {  return  0 }; # error printed
-ok_trace_msg "[FormatSortedWorkAreaStuff $pathDict {~~~ 00> }]"  
   ok_info_msg "\n=========\nOverride depth for some RAWs; process changed RAWs; verify results\n=========\n"
   set lastDepthOvrdBU [ForcedBackupDepthOverrideIfExists];  # no auto back-up
-ok_trace_msg "~~~ lastDepthOvrdBU = {$lastDepthOvrdBU}"
-ok_trace_msg "~~~~~~~~~ 01 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [set ovrdPurenames [_SimulateDepthOverride $pathDict]] } { return 0 }
-ok_trace_msg "~~~ ovrdPurenames = {[lsort $ovrdPurenames]}"
-ok_trace_msg "~~~~~~~~~ 02 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [set pathDictOld [ListWorkAreaStuff]] } {  return  0 }
-ok_trace_msg "[FormatSortedWorkAreaStuff $pathDictOld {~~~ 01> }]"  
-ok_trace_msg "~~~~~~~~~ 03 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [GUI_ProcChangedRAWs] }  {
     ok_err_msg "Failed to override WB in converter settings file(s) for overriden depth "
     return  0
   }
-ok_trace_msg "~~~~~~~~~ 04 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [set pathDict [ListWorkAreaStuff]] } {  return  0 }; # error printed
-ok_trace_msg "[FormatSortedWorkAreaStuff $pathDict {~~~ 02> }]"  
-ok_trace_msg "~~~~~~~~~ 05 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [CheckUnmatchedInputsTreatment $pathDictOld $pathDict 0 1] } {return 0}
-ok_trace_msg "~~~~~~~~~ 06 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [CheckUltimateWBData $pathDict] } { return  0 };  # error printed
-ok_trace_msg "~~~~~~~~~ 07 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   # verify RAW colors override in the settings files (after processing changed RAW(s))
   if { 0 == [CheckChangedUltimatePhotosSettings $pathDict $lastDepthOvrdBU  \
                                                   $ovrdPurenames] }  {
     return  0
   }
-ok_trace_msg "~~~~~~~~~ 08 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   # verify depth and colors have been changed
   if { 0 == [CheckDepthOvrdInUltimateWBData $pathDict $ovrdPurenames] }  {
     return  0
   }
-ok_trace_msg "~~~~~~~~~ 09 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   if { 0 == [CompareUltimatePhotosSettingsWithWBData $pathDict] }  { return  0 }
-ok_trace_msg "~~~~~~~~~ 10 FlowStep_ProcChangedRAWs('$workDir', '$rawConvName')"
   return  $pathDict
 }
 ######################## END:   Flow stages ####################################
